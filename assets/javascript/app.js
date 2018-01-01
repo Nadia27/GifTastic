@@ -27,7 +27,7 @@
 
 	//Create function for user input 
 	$("#add-gif").on("click", function(event) {
-	event.preventDefault(); 
+		event.preventDefault(); 
 
 		//grab input from the textbox
 		var giph = $("input").val().trim(); 
@@ -113,12 +113,12 @@
  			$(this).attr("src", $(this).attr("data-motion"));
        		
        		$(this).attr("data-state", "animate");
-      } else {
-        $(this).attr("src", $(this).attr("data-still"));
+      	} else {
+        	$(this).attr("src", $(this).attr("data-still"));
         
-        $(this).attr("data-state", "still");
-  }
-}
+        	$(this).attr("data-state", "still");
+  		}
+	}
 
  		
  		
