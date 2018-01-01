@@ -10,18 +10,19 @@
 			margin: 20px;
 		}
 
-		#gifs div {
+		.giphy {
 			margin: 10px;
 			width: 200px; 
 			height: 200px; 
 			display: flex;
 			background-image: cover; 
 		}
-		.row{
-			display: flex; 
-			flex-wrap: wrap;
-		}
-
+	
+	 .row{
+		display: flex; 
+		flex-wrap: wrap;
+	}
+	
 		
 	
 	</style>
@@ -95,7 +96,6 @@
 		//remove any previous gifs before adding new gifs 
 		$('#gifs').empty(); 
 
-		stopAnimation();
 
 		var giphName = $(this).attr("data-pic");
 
@@ -113,27 +113,64 @@
  			for(var x = 0; x < response.data.length; x++) {
 
  				
-			//retrieve the URL for images
+			//retrieve the URL for images (still)
 			var imgURL= response.data[x].images.downsized_still.url;
+
+			//retrieve the URL for images(motion)
+			var motionURL = response.data[x].images.downsized.url;
+
+			var showGif = $('<img>');
 			
 			console.log(imgURL);
 
-		
-			$('#gifs').append($('<div class=pics>').css('background-image', 'url(' + imgURL + ')'));
 
-		
+			showGif.attr('src', imgURL);
+			showGif.addClass("giphy");
+			showGif.attr("data-state", "still");
+			showGif.attr("data-still", imgURL); 
+			showGif.attr("data-motion", motionURL);
+			//append image stills
+			$('#gifs').append(showGif);
 
+			var rating = response.data[x].rating;
 
+			console.log(rating);
 
+			var info = $("<p>"); 
+
+			info.text(rating); 
+			// create an element to display rating
 			
+          	
+          	// Displays the rating
+   			$('#gifs').append(info);
+			   //.attr('src', imgURL);
+
+		
+			//$('#gifs').append($('<div>').css('background-image', 'url(' + imgURL + ')'));
 			} 
  		}) 
  	}
 
 
- 	function stopAnimation() {
+ 	function playPauseGifs() {
+
+ 		var state = $(this).attr("data-state");
+ 		//check gifs data-state 
+ 		if(state === "still") {
+ 			$(this).attr("src", $(this).attr("data-motion"));
+       		
+       		$(this).attr("data-state", "animate");
+      } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        
+        $(this).attr("data-state", "still");
+  }
+}
+
  		
- 		}
+ 		
+ 		
 
 
 
@@ -149,6 +186,7 @@
 
 
 	$(document).on("click", ".image", displayGIF); 
+	 $(document).on("click", ".giphy", playPauseGifs);
 
 	renderButtons();
 
