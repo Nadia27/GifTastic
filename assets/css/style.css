@@ -1,0 +1,20 @@
+h1 {
+	margin: 20px; 
+}
+
+button, form {
+		margin: 20px;
+}
+
+.giphy {
+	margin: 10px;
+	width: 200px; 
+	height: 200px; 
+	display: flex;
+	background-image: cover; 
+}
+
+.row {
+	display: flex; 
+	flex-wrap: wrap;
+}

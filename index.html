@@ -3,29 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GifTastic</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	<style type="text/css">
-		
-		button, form {
-			margin: 20px;
-		}
 
-		.giphy {
-			margin: 10px;
-			width: 200px; 
-			height: 200px; 
-			display: flex;
-			background-image: cover; 
-		}
-	
-	 .row{
-		display: flex; 
-		flex-wrap: wrap;
-	}
-	
-		
-	
-	</style>
+
 </head>
 <body>
 
@@ -42,168 +24,10 @@
 	       <input id="add-gif" type="submit" value="Grab my Giphy">
 	 	</form>
 	 	
-	 	<div id="gifs" class= "row"></div>
+	 	<div id="gifs" class="row"></div>
 
 
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		
-	<script type="text/javascript">
-
-		//Array of Topics 
-
-		var topics = ["motivation", "celebration", "work", "hustle", "friendship"];
-		
-
-		function renderButtons() {
-
-			//prevent repeat buttons upon button push
-			$("#buttons-view").empty(); 
-
-       	// Loop through the array of movies, then generate buttons for each movie in the array
-         
-          for(var i = 0; i < topics.length; i++) {
-          	//create buttons 
-            var y = $("<button>");
-            //add a class to images
-            y.addClass("image");
-            //add data attribute 
-            y.attr("data-pic", topics[i]);
-            //button text 
-            y.text(topics[i]); 
-            //add button to div
-            $("#buttons-view").append(y); 
-		  }
-		}
-
-
-	//Create function for user input 
-	$("#add-gif").on("click", function(event) {
-	event.preventDefault(); 
-
-		//grab input from the textbox
-		var giph = $("input").val().trim(); 
-
-		//giph topic added to array
-		topics.push(giph); 
-
-		renderButtons(); 
-	});
-		
-
-	function displayGIF() {
-
-		//remove any previous gifs before adding new gifs 
-		$('#gifs').empty(); 
-
-
-		var giphName = $(this).attr("data-pic");
-
-		var api_key = "dc6zaTOxFJmzC";  
-		
-		var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + giphName + "&api_key=" + api_key + "&limit=10";
-
- 		$.ajax({
- 			url: queryURL, 
- 			method: "GET"
-
- 		}).done(function(response) {
-
- 			//Loop through the ten gifs 
- 			for(var x = 0; x < response.data.length; x++) {
-
- 				
-			//retrieve the URL for images (still)
-			var imgURL= response.data[x].images.downsized_still.url;
-
-			//retrieve the URL for images(motion)
-			var motionURL = response.data[x].images.downsized.url;
-
-			var showGif = $('<img>');
-			
-			console.log(imgURL);
-
-
-			showGif.attr('src', imgURL);
-			showGif.addClass("giphy");
-			showGif.attr("data-state", "still");
-			showGif.attr("data-still", imgURL); 
-			showGif.attr("data-motion", motionURL);
-			//append image stills
-			$('#gifs').append(showGif);
-
-			var rating = response.data[x].rating;
-
-			console.log(rating);
-
-			var info = $("<p>"); 
-
-			info.text(rating); 
-			// create an element to display rating
-			
-          	
-          	// Displays the rating
-   			$('#gifs').append(info);
-			   //.attr('src', imgURL);
-
-		
-			//$('#gifs').append($('<div>').css('background-image', 'url(' + imgURL + ')'));
-			} 
- 		}) 
- 	}
-
-
- 	function playPauseGifs() {
-
- 		var state = $(this).attr("data-state");
- 		//check gifs data-state 
- 		if(state === "still") {
- 			$(this).attr("src", $(this).attr("data-motion"));
-       		
-       		$(this).attr("data-state", "animate");
-      } else {
-        $(this).attr("src", $(this).attr("data-still"));
-        
-        $(this).attr("data-state", "still");
-  }
-}
-
- 		
- 		
- 		
-
-
-
- 			
-
-
-
-
-
- 			
-
- 			
-
-
-	$(document).on("click", ".image", displayGIF); 
-	 $(document).on("click", ".giphy", playPauseGifs);
-
-	renderButtons();
-
-
-		
-
-
-
-
-
-      
-		
-
-
-
-
-
-	</script>
+	<script type="text/javascript" src="assets/javascript/app.js"></script>
 </body>
 </html>
